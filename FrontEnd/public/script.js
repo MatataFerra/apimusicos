@@ -11,21 +11,14 @@ function recibeUsuarios(){
         for(let user of users){
             let tarjeta = document.createElement('div');
             tarjeta.setAttribute('class', 'tarjeta');
-            if(user.Instrumentos&&user.Generos){
+            
                 tarjeta.innerHTML = 
                 `            
                 <p>Nombre: ${user.nombre}</p>
                 <p>Pronombre: ${user.pronombre}</p>
-                <p>Instrumentos: ${user.Instrumentos[0].nombre}, ${user.Instrumentos[1].nombre}</p>
-                <p>Generos: ${user.Generos[0].nombre}, ${user.Generos[1].nombre}</p>
+                <p>Instrumentos: ${chequearInstrumentos(user.Instrumentos, 'instrumento')}</p>
+                <p>Generos: ${chequearInstrumentos(user.Generos, 'genero')}</p>
                 `;
-            }else{
-                tarjeta.innerHTML = 
-                `            
-                <p>Nombre: ${user.nombre}</p>
-                <p>Pronombre: ${user.pronombre}</p>
-                `;
-            }
             otrosMusicos.appendChild(tarjeta);
         }
     })
@@ -69,3 +62,29 @@ botonMusico.addEventListener("click", () => {
 });
 
 
+let chequearInstrumentos = (listInstrumentos, tipo) => {
+    let stringInstrumento = "";
+    if(listInstrumentos.length > 0){
+        let primerInstrumento = true;
+        for(let instrumento of listInstrumentos){
+            if(primerInstrumento) {
+                stringInstrumento += `${instrumento.nombre}`;
+                primerInstrumento = false;
+            } else {
+
+                stringInstrumento += `, ${instrumento.nombre}`;
+            }
+        }
+
+    } else {
+        if(tipo == "instrumento"){
+            stringInstrumento = "No hay instrumentos";
+
+        } else if(tipo == "genero") {
+            stringInstrumento = "No hay géneros";
+        }
+    }
+
+
+    return stringInstrumento;
+}
